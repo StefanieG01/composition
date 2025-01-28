@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://orderProductListView.title"
+      focusComponent="orderProductsDataGrid">
+    <data>
+        <collection id="orderProductsDc"
+                    class="com.company.composition.entity.OrderProduct">
+            <fetchPlan extends="_base">
+                <property name="order" fetchPlan="_base"/>
+                <property name="product" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="orderProductsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from OrderProduct e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="orderProductsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="orderProductsDataGrid.create"/>
+            <button id="editButton" action="orderProductsDataGrid.edit"/>
+            <button id="removeButton" action="orderProductsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="orderProductsDl"/>
+        </hbox>
+        <dataGrid id="orderProductsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="orderProductsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="product"/>
+                <column property="order"/>
+                <column property="validFrom"/>
+                <column property="validTo"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

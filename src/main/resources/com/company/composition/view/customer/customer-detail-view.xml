@@ -9,7 +9,7 @@
                 <property fetchPlan="_base" name="orders">
                     <property name="order" fetchPlan="_instance_name">
                         <property name="orderProduct" fetchPlan="_base">
-                            <property name="product">
+                            <property name="product" fetchPlan="_base">
                                 <property name="productCategory" fetchPlan="_base">
                                     <property name="categoryType" fetchPlan="_base"/>
                                 </property>
